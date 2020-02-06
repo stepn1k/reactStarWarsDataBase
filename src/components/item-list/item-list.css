@@ -1,0 +1,8 @@
+.item-list {
+  grid-area: list;
+}
+
+.item-list ul li:hover {
+  background-color: darkorange;
+  color:black
+}

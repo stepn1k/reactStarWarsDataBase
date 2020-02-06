@@ -1,0 +1,10 @@
+.app {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "planet planet"
+    "list detail";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  grid-gap: 10px;
+}

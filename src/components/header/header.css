@@ -1,0 +1,32 @@
+.header {
+  grid-area: header;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 160px 3fr;
+  grid-template-rows: 1fr;
+}
+
+.header-logo {
+  font-size: 25px;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: rgb(251, 227, 0);
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-bottom: 5px;
+}
+
+.header-nav_link {
+  font-weight: bold;
+  font-size: large;
+}
+
+.header-nav_link:hover{
+  color:darkorange;
+  cursor: pointer;
+}
