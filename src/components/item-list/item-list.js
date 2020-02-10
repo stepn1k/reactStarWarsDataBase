@@ -1,20 +1,44 @@
-import React from "react";
+import React, { Component } from "react";
+import SwapiService from "../../services/swapi";
+import Spinner from "../spinner/spinner";
 import "./item-list.css";
 
-const ItemList = () => {
-  return (
-    <div className="item-list">
-      <ul className="list-group">
-        <li className="list-group-item">R2-D2</li>
-        <li className="list-group-item">Luke Skywalker</li>
-        <li className="list-group-item">C-3PO</li>
-        <li className="list-group-item">Darth Vader</li>
-        <li className="list-group-item">Leia Organa</li>
-        <li className="list-group-item">Beru Whitesun lars</li>
-        <li className="list-group-item">Obi-Wan Kenobi</li>
-      </ul>
-    </div>
-  );
-};
+export default class ItemList extends Component {
+  swapi = new SwapiService();
 
-export default ItemList;
+  state = {
+    itemList: null
+  };
+
+  componentDidMount() {
+    this.swapi.getAllPeople().then(itemList => this.setState({ itemList }));
+  }
+
+  renderItems = arr => {
+    return arr.map(({ name, id }) => {
+      return (
+        <li
+          className="list-group-item"
+          key={id}
+          onClick={() => this.props.onItemSelected(id)}
+        >
+          {name}
+        </li>
+      );
+    });
+  };
+
+  render() {
+    const { itemList } = this.state;
+
+    if (!itemList) return <div className="loading"><Spinner /></div>
+
+    const items = this.renderItems(itemList);
+
+    return (
+      <div className="item-list">
+        <ul className="list-group">{items}</ul>
+      </div>
+    );
+  }
+}

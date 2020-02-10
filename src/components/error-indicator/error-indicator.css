@@ -1,0 +1,37 @@
+.error-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 13px;
+  color: #b01e3d;
+  text-align: center;
+}
+
+.error-indicator_text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-indicator_img {
+  margin-right: 20px;
+}
+
+.error-indicator_text-boom {
+  font-size: 19px;
+}
+
+@media (max-width: 767px) {
+  .error-indicator_img img {
+    width: 60px;
+  }
+}
+
+@media (max-width: 383px) {
+  .error-indicator_img {
+    display: none;
+  }
+}

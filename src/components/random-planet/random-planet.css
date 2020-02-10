@@ -33,13 +33,13 @@
   border-bottom: 1px solid rgba(104, 103, 103, 0.589);
 }
 
-.random-planet-buttons {
+.random-planet-button {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.random-planet-buttons button {
+.random-planet-button button {
   margin: 5px;
   color: black;
   font-weight: bold;
@@ -54,6 +54,15 @@
 
 .random-planet .list-group-item span {
   color: darkorange;
+}
+
+.messageOrSpinner {
+  grid-area: planet;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #303030;
+  border-radius: 10px;
 }
 
 @media (max-width: 767px) {
@@ -75,8 +84,16 @@
     margin-bottom: 0px;
   }
 
-  .random-planet-buttons button {
+  .random-planet-button {
+    justify-content: flex-start;
+  }
+
+  .random-planet-button button {
     margin-top: 0px;
     font-size: 0.8rem;
+  }
+  .random-planet-info-right {
+    position: relative;
+    top: -5px;
   }
 }

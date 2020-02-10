@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import Spinner from "../spinner/spinner";
 import SwapiService from "../../services/swapi";
+import ErrorIndicator from "../error-indicator/error-indicator";
 
 import "./random-planet.css";
 
@@ -7,75 +9,127 @@ export default class RabdomPlanet extends Component {
   swapi = new SwapiService();
 
   state = {
-    id: null,
-    name: null,
-    population: null,
-    diameter: null,
-    climate: null,
-    orbitalPeriod: null,
-    rotationPeriod: null
+    planet: {},
+    loading: true,
+    error: false
   };
 
-  updatePlanet = () => {
-    let id = Math.floor(Math.random() * 25 + 2);
-    this.swapi.getPlanet(id).then(planet => {
-      this.setState({
-        id: id,
-        name: planet.name,
-        population: planet.population,
-        diameter: planet.diameter,
-        climate: planet.climate,
-        orbitalPeriod: planet.orbital_period,
-        rotationPeriod: planet.rotation_period
-      });
+  onError = () => {
+    this.setState({
+      error: true,
+      loading: false
     });
   };
 
-  constructor() {
-    super();
+  onPlanetLoaded = planet => {
+    this.setState({
+      planet,
+      loading: false
+    });
+  };
+
+  updatePlanet = () => {
+    let id = Math.floor(Math.random() * 16 + 3);
+    this.swapi
+      .getPlanet(id)
+      .then(planet => {
+        this.onPlanetLoaded(planet);
+      })
+      .catch(() => this.onError());
+  };
+
+  onRandomClick = () => {
+    this.setState({ loading: true });
     this.updatePlanet();
+  };
+
+  componentDidMount() {
+    this.updatePlanet();
+    this.interval = setInterval(this.updatePlanet, 10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {
-    let { id, name, rotationPeriod, orbitalPeriod, diameter, climate, population } = this.state;
-    
-    let imgScr = `https://starwars-visualguide.com/assets/img/planets/${id}.jpg`;
-    
-    let populationVisible = (population > 10 ** 8) ? `${population / 10 ** 6} M` : population;
+    let { planet, loading, error } = this.state;
+
+    let hasData = !loading && !error;
+
+    let errorIndicator = error ? <ErrorIndicator /> : null;
+    let spinner = loading && !error ? <Spinner /> : null;
+    let planetView = hasData ? (
+      <PlanetView
+        planet={planet}
+        onRandomClick={this.onRandomClick}
+        onNextClick={this.onNextPlanetClick}
+        onPrevClick={this.onPrevPlanetClick}
+      />
+    ) : null;
 
     return (
-      <div className="random-planet">
-        <div className="random-planet-image">
-          <img alt={name} src={imgScr} />
+      <React.Fragment>
+        <div className="messageOrSpinner">
+          {spinner}
+          {errorIndicator}
         </div>
-        <ul className="random-planet-info-left">
-          <li className="list-group-item">
-            Name: <span>{name}</span>
-          </li>
-          <li className="list-group-item">
-            Diameter: <span>{diameter}</span>
-          </li>
-          <li className="list-group-item">
-            Climate: <span>{climate}</span>
-          </li>
-        </ul>
-        <ul className="random-planet-info-right">
-          <li className="list-group-item">
-            Population: <span>{populationVisible}</span>
-          </li>
-          <li className="list-group-item">
-            Roration Period: <span>{rotationPeriod}</span>
-          </li>
-          <li className="list-group-item">
-            Orbital Period: <span>{orbitalPeriod}</span>
-          </li>
-        </ul>
-        <div className="random-planet-buttons">
-          <button className="btn btn-success">Next</button>
-          <button className="btn btn-danger">Random</button>
-          <button className="btn btn-success">Prev</button>
-        </div>
-      </div>
+        {planetView}
+      </React.Fragment>
     );
   }
 }
+
+const PlanetView = props => {
+  let {
+    id,
+    name,
+    rotationPeriod,
+    orbitalPeriod,
+    diameter,
+    gravity,
+    population
+  } = props.planet;
+
+  // Reduces numbers to readable values
+  let populationVisible =
+    population > 10 ** 8 ? `${population / 10 ** 6} M` : population;
+
+  return (
+    <div className="random-planet">
+      <div className="random-planet-image">
+        <img
+          alt={name}
+          src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
+        />
+      </div>
+      <ul className="random-planet-info-left">
+        <li className="list-group-item">
+          Name: <span>{name}</span>
+        </li>
+        <li className="list-group-item">
+          Diameter: <span>{diameter}</span>
+        </li>
+        <li className="list-group-item">
+          Gravity: <span>{gravity}</span>
+        </li>
+      </ul>
+      <ul className="random-planet-info-right">
+        <li className="list-group-item">
+          Population: <span>{populationVisible}</span>
+        </li>
+        <li className="list-group-item">
+          Roration Period: <span>{rotationPeriod}</span>
+        </li>
+        <li className="list-group-item">
+          Orbital Period: <span>{orbitalPeriod}</span>
+        </li>
+      </ul>
+      <div className="random-planet-button">
+        <button className="btn btn-danger" onClick={props.onRandomClick}>
+          Random
+        </button>
+      </div>
+    </div>
+  );
+};

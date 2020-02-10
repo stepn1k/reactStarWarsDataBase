@@ -26,7 +26,34 @@
   font-size: large;
 }
 
-.header-nav_link:hover{
-  color:darkorange;
+.header-nav_link:hover {
+  color: darkorange;
   cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .header {
+    grid-template-columns: 130px 3fr;
+  }
+
+  .header-nav_link {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  .header-logo {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 368px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-logo {
+    font-size: 29px;
+  }
 }

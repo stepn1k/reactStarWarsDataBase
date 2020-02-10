@@ -6,14 +6,22 @@ import RandomPlanet from "../random-planet/random-planet";
 import "./app.css";
 
 export default class App extends Component {
+  state = {
+    selectedItemId: null
+  };
+
+  onItemSelected = id => {
+    this.setState({ selectedItemId: id });
+  };
+
   render() {
     return (
       <div className="container">
         <div className="app">
           <Header />
           <RandomPlanet />
-          <ItemList />
-          <PersonDetails />
+          <ItemList onItemSelected={this.onItemSelected} />
+          <PersonDetails selectedItem={this.state.selectedItemId} />
         </div>
       </div>
     );
