@@ -3,19 +3,30 @@ import Spinner from "../spinner/spinner";
 import SwapiService from "../../services/swapi";
 import "./person-details.css";
 
+const Record = ({ item, field, label }) => {
+  return (
+    <li className="list-group-item">
+      {label}: <span>{field}</span>
+    </li>
+  );
+};
+
+export { Record };
+
 export default class PersonDetails extends Component {
   swapi = new SwapiService();
 
   state = {
     person: null,
-    loading: false
+    loading: false,
+    image: null
   };
 
   updatePerson = () => {
-    const { selectedItem } = this.props;
+    const { selectedItem, getData, getImageUrl } = this.props;
     if (!selectedItem) return;
-    this.swapi.getPerson(selectedItem).then(person => {
-      this.setState({ person, loading: false });
+    getData(selectedItem).then(person => {
+      this.setState({ person, loading: false, image: getImageUrl(person) });
     });
   };
 
@@ -31,14 +42,31 @@ export default class PersonDetails extends Component {
   }
 
   render() {
-    const { loading, person } = this.state;
+    const { loading, person, image } = this.state;
 
     let selectPersonText =
       !person && !loading ? <span>Select a person from a list</span> : null;
 
     let spinner = loading ? <Spinner /> : null;
 
-    let hasData = person && !loading ? <DetailView person={person} /> : null;
+    let hasData =
+      person && !loading && image ? (
+        <div className="person-details">
+          <div className="person-details-image">
+            <img className="img-fluid" alt={person.name} src={image} />
+          </div>
+          <div className="person-details-info_name">
+            <h4>{person.name}</h4>
+          </div>
+          <div className="person-details-info">
+            <ul className="list-group">
+              {React.Children.map(this.props.children, child => {
+                return child
+              })}
+            </ul>
+          </div>
+        </div>
+      ) : null;
 
     return (
       <React.Fragment>
@@ -51,49 +79,3 @@ export default class PersonDetails extends Component {
     );
   }
 }
-
-const DetailView = props => {
-  const { name, gender, height, mass,
-    hairColor, birthYear, eyeColor, skinColor,
-    id } = props.person;
-
-  return (
-    <div className="person-details">
-      <div className="person-details-image">
-        <img
-          className="img-fluid"
-          alt={name}
-          src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`}
-        />
-      </div>
-      <div className="person-details-info_name">
-        <h4>{name}</h4>
-      </div>
-      <div className="person-details-info">
-        <ul className="list-group">
-          <li className="list-group-item">
-            Gender: <span>{gender}</span>
-          </li>
-          <li className="list-group-item">
-            Birth Year: <span>{birthYear}</span>
-          </li>
-          <li className="list-group-item">
-            Height: <span>{height}</span>
-          </li>
-          <li className="list-group-item">
-            Mass: <span>{mass}</span>
-          </li>
-          <li className="list-group-item">
-            Hair Color: <span>{hairColor}</span>
-          </li>
-          <li className="list-group-item">
-            Eye Color: <span>{eyeColor}</span>
-          </li>
-          <li className="list-group-item">
-            Skin Color: <span>{skinColor}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-};

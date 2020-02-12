@@ -1,0 +1,153 @@
+@import "../../variables.scss";
+
+$padding: 10px;
+$borderRadius: 10px;
+$imageWidth: 140px;
+
+%flexCenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+// position
+.random-planet {
+  grid-area: planet;
+  display: grid;
+  grid-template-columns: 0.5fr 1.5fr 1.5fr 0.5fr;
+  grid-gap: $padding;
+  padding: $padding;
+  border-radius: $padding;
+  background-color: $bgComponentColor;
+
+  &-image {
+    grid-column: 1/2;
+  }
+
+  &-info-left {
+    grid-column: 2/3;
+  }
+
+  &-info-right {
+    grid-column: 3/4;
+  }
+
+  .error-indicator {
+    grid-column: 1/-1;
+  }
+
+  .spinner {
+    grid-column: 1/-1;
+    @extend %flexCenter;
+  }
+}
+
+// information block
+.random-planet {
+  ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    padding: $padding;
+    padding-left: $padding * 2;
+    margin-bottom: 5px;
+    border: none;
+    border-bottom: 1px solid $colorUnderLine;
+
+    span {
+      color: $colorOrange;
+    }
+  }
+}
+
+// image and button
+
+.random-planet {
+  &-image img {
+    max-width: $imageWidth;
+    border-radius: $borderRadius;
+  }
+
+  &-button {
+    @extend %flexCenter;
+    button {
+      color: black;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 14px;
+      margin: 5px;
+    }
+  }
+}
+
+// ***** responsive ***** //
+
+@media (max-width: 767px) {
+  // position
+  .random-planet {
+    grid-template-columns: 0.5fr 1.5fr;
+    grid-template-rows: 1fr 1fr;
+    font-size: 0.9rem;
+    &-image {
+      grid-column: 1/2;
+      grid-row: 1/2;
+    }
+
+    &-info-left {
+      grid-column: 2/3;
+      grid-row: 1/2;
+    }
+
+    &-info-right {
+      grid-column: 2/3;
+      grid-row: 2/3;
+    }
+
+    .error-indicator {
+      grid-column: 1/-1;
+      grid-row: 1/-1;
+    }
+
+    .spinner {
+      grid-column: 1/-1;
+      grid-row: 1/-1;
+    }
+  }
+
+  // img and planet
+  .random-planet {
+    padding-bottom: 0;
+    &-image {
+      img {
+        max-width: 123px;
+        border-radius: $borderRadius;
+      }
+    }
+    &-button {
+      justify-content: flex-start;
+      button {
+        margin-top: 0px;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  // infromation block
+  .random-planet {
+    li {
+      margin-bottom: 0px;
+    }
+
+    &-info-right {
+      position: relative;
+      top: -5px;
+
+      li:last-child {
+        border: none;
+      }
+    }
+  }
+}

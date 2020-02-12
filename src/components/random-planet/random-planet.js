@@ -3,7 +3,7 @@ import Spinner from "../spinner/spinner";
 import SwapiService from "../../services/swapi";
 import ErrorIndicator from "../error-indicator/error-indicator";
 
-import "./random-planet.css";
+import "./random-planet.scss";
 
 export default class RabdomPlanet extends Component {
   swapi = new SwapiService();
@@ -56,52 +56,43 @@ export default class RabdomPlanet extends Component {
     let { planet, loading, error } = this.state;
 
     let hasData = !loading && !error;
-
     let errorIndicator = error ? <ErrorIndicator /> : null;
     let spinner = loading && !error ? <Spinner /> : null;
+
     let planetView = hasData ? (
       <PlanetView
         planet={planet}
         onRandomClick={this.onRandomClick}
-        onNextClick={this.onNextPlanetClick}
-        onPrevClick={this.onPrevPlanetClick}
+        imageSrc={this.swapi.getPlanetImage(planet)}
       />
     ) : null;
 
     return (
-      <React.Fragment>
-        <div className="messageOrSpinner">
-          {spinner}
-          {errorIndicator}
-        </div>
+      <div className="random-planet">
+        {spinner}
+        {errorIndicator}
         {planetView}
-      </React.Fragment>
+      </div>
     );
   }
 }
 
 const PlanetView = props => {
-  let {
-    id,
-    name,
-    rotationPeriod,
-    orbitalPeriod,
-    diameter,
-    gravity,
-    population
+  let { name, rotationPeriod, orbitalPeriod,
+    diameter, surfaceWater, population
   } = props.planet;
 
   // Reduces numbers to readable values
   let populationVisible =
     population > 10 ** 8 ? `${population / 10 ** 6} M` : population;
 
+  let waterVisible =
+    surfaceWater !== "unknown" ? `${surfaceWater} %` : surfaceWater;
+
   return (
-    <div className="random-planet">
+    <React.Fragment>
       <div className="random-planet-image">
-        <img
-          alt={name}
-          src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-        />
+        <img alt={name} src={props.imageSrc} />
       </div>
       <ul className="random-planet-info-left">
         <li className="list-group-item">
@@ -111,7 +102,7 @@ const PlanetView = props => {
           Diameter: <span>{diameter}</span>
         </li>
         <li className="list-group-item">
-          Gravity: <span>{gravity}</span>
+          Surface Water : <span>{waterVisible}</span>
         </li>
       </ul>
       <ul className="random-planet-info-right">
@@ -130,6 +121,6 @@ const PlanetView = props => {
           Random
         </button>
       </div>
-    </div>
+    </React.Fragment>
   );
 };

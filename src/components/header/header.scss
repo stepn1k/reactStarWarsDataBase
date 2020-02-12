@@ -1,0 +1,60 @@
+@import "../../variables.scss";
+
+$size: 20px;
+$spaceForLogo: 160px;
+
+%flexAroundRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.header {
+  display: grid;
+  grid-area: header;
+  grid-template-columns: $spaceForLogo 3fr;
+  padding: $size / 2;
+  font-weight: bold;
+
+  &-logo {
+    @extend %flexAroundRow;
+    font-size: $size + 5;
+    font-weight: bold;
+    color: $colorYellow;
+  }
+
+  &-nav {
+    @extend %flexAroundRow;
+    padding-bottom: 5px;
+    &_link {
+      margin-right: $size / 2;
+      &:hover {
+        color: $colorOrange;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .header {
+    grid-template-columns: ($spaceForLogo - $size) 3fr;
+    &-logo {
+      font-size: $size;
+      margin-right: $size / 2;
+    }
+  }
+}
+
+@media (max-width: 368px) {
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    &-logo {
+      font-size: $size + 10;
+    }
+  }
+}
