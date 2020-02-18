@@ -1,0 +1,19 @@
+@import "../../variables.scss";
+
+.welcome {
+  grid-area: row;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  text-align: center;
+
+  h3 {
+    color: $colorYellow;
+  }
+
+  p {
+    font-size: 17px;
+  }
+}

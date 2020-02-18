@@ -1,0 +1,30 @@
+.row {
+  grid-area: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  &_left-column {
+    grid-column: 1/2;
+  }
+
+  &_right-column {
+    grid-column: 2/3;
+  }
+}
+
+@media (max-width: 992px) {
+  .row {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+
+    &_left-column {
+      grid-column: 1/2;
+      grid-row: 1/2;
+    }
+
+    &_right-column {
+      grid-column: 1/2;
+      grid-row: 2/3;
+    }
+  }
+}

@@ -21,16 +21,21 @@ $spaceForLogo: 160px;
     font-size: $size + 5;
     font-weight: bold;
     color: $colorYellow;
+    &:hover {
+      color: $colorYellow;
+      text-decoration: none;
+    }
   }
 
   &-nav {
     @extend %flexAroundRow;
-    padding-bottom: 5px;
     &_link {
+      font-size: $size - 3;
       margin-right: $size / 2;
       &:hover {
         color: $colorOrange;
         cursor: pointer;
+        text-decoration: none;
       }
     }
   }

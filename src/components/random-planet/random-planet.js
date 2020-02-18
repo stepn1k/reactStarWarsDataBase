@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types"
 import Spinner from "../spinner/spinner";
 import SwapiService from "../../services/swapi";
 import ErrorIndicator from "../error-indicator/error-indicator";
@@ -6,6 +7,15 @@ import ErrorIndicator from "../error-indicator/error-indicator";
 import "./random-planet.scss";
 
 export default class RabdomPlanet extends Component {
+
+  static defaultProps = {
+    updateInterval: 10000
+  };
+
+  static propTypes = {
+    updateInterval: PropTypes.number
+  }
+
   swapi = new SwapiService();
 
   state = {
@@ -44,8 +54,9 @@ export default class RabdomPlanet extends Component {
   };
 
   componentDidMount() {
+    const { updateInterval } = this.props;
     this.updatePlanet();
-    this.interval = setInterval(this.updatePlanet, 10000);
+    this.interval = setInterval(this.updatePlanet, updateInterval);
   }
 
   componentWillUnmount() {
@@ -78,8 +89,13 @@ export default class RabdomPlanet extends Component {
 }
 
 const PlanetView = props => {
-  let { name, rotationPeriod, orbitalPeriod,
-    diameter, surfaceWater, population
+  let {
+    name,
+    rotationPeriod,
+    orbitalPeriod,
+    diameter,
+    surfaceWater,
+    population
   } = props.planet;
 
   // Reduces numbers to readable values

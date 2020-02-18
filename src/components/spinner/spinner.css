@@ -1,3 +1,9 @@
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @keyframes ldio-vcjaq2sjd8 {
   0% {
     transform: rotate(0);

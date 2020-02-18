@@ -1,0 +1,19 @@
+@import "../../variables.scss";
+
+$margin: 16px;
+
+.item-list {
+  margin-bottom: $margin;
+
+  li {
+    cursor: pointer;
+    margin-right: $margin;
+    margin-left: $margin;
+
+    &:hover {
+      color: black;
+      font-weight: bold;
+      background-color: $colorSuccess;
+    }
+  }
+}

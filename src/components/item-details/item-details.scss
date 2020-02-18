@@ -1,0 +1,86 @@
+@import "../../variables.scss";
+
+.select-item-text {
+  display: flex;
+  justify-content: center;
+}
+
+$size: 5px;
+
+.item-details {
+  position: relative;
+  margin-right: 16px;
+  border: 1px solid $colorUnderLine;
+  border-radius: $size;
+  padding: $size * 2;
+
+  h4 {
+    border: 1px solid $colorUnderLine;
+    padding: $size;
+    color: $colorOrange;
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .card-body {
+    padding: 0;
+    display: flex;
+
+    .item-image {
+      border-radius: $size;
+      display: block;
+      max-width: 45%;
+      height: auto;
+      max-height: 100vh;
+    }
+
+    .list-group {
+      margin-left: 10px;
+      width: 100%;
+
+      .value {
+        color: $colorSuccess;
+        margin-left: $size;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .item-details {
+    .card-body {
+      .item-image {
+        max-width: 50%;
+      }
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .item-details {
+    margin-left: 16px;
+    .card-body {
+      .item-image {
+        max-width: 35%;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .item-details {
+    .card-body {
+      display: flex;
+      flex-direction: column;
+
+      .list-group {
+        margin-left: 0px;
+        margin-top: 10px;
+      }
+
+      .item-image {
+        max-width: 100%;
+      }
+    }
+  }
+}

@@ -1,48 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "../header/header";
-import PeoplePage from "../people-page/people-page";
-import ItemList from "../item-list/item-list";
-import PersonDetails, { Record } from "../person-details/person-details";
-
 import RandomPlanet from "../random-planet/random-planet";
-import "./app.css";
+import { SwapiServiceProvider } from "../swapi-service-context";
+import { PeoplePage, StarshipPage, PlanetPage, WelcomePage } from "../pages";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import SwapiService from "../../services/swapi";
+import "./app.scss";
 
-export default class App extends Component {
-  swapi = new SwapiService();
-
-  render() {
-    return (
-      <div className="container">
-        <div className="app">
-          <Header />
-          <RandomPlanet />
-          {/* <PeoplePage /> */}
-
-          {/* <ItemList
-            getData={this.swapi.getAllPlanets}
-            renderItem={item => item.name}
-          /> */}
-          <PersonDetails
-            selectedItem={11}
-            getData={this.swapi.getPerson}
-            getImageUrl={this.swapi.getPersonImage}
-          >
-            <Record field="gender" label="Gender" />
-            <Record field="eyeColor" label="Eye Color" />
-          </PersonDetails>
-
-          {/* <ItemList
-            getData={this.swapi.getAllStarships}
-            renderItem={item => item.name}
-          /> */}
-          <PersonDetails
-            selectedItem={5}
-            getData={this.swapi.getStarship}
-            getImageUrl={this.swapi.getStarshipImage}
-          />
+const App = () => {
+  const swapi = new SwapiService();
+  return (
+    <SwapiServiceProvider value={swapi}>
+      <Router>
+        <div className="container">
+          <div className="app">
+            <Header />
+            <RandomPlanet />
+            <Route path="/" component={WelcomePage} exact />
+            <Route path="/people/:id?" component={PeoplePage} />
+            <Route path="/planets/:id?" component={PlanetPage} />
+            <Route path="/starships/:id?" component={StarshipPage} />
+          </div>
         </div>
-      </div>
-    );
-  }
-}
+      </Router>
+    </SwapiServiceProvider>
+  );
+};
+
+export default App;
