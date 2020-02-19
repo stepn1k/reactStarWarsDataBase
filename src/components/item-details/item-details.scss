@@ -1,11 +1,21 @@
 @import "../../variables.scss";
 
+@mixin image-max-width($width) {
+  .item-details {
+    .card-body {
+      .item-image {
+        max-width: $width;
+      }
+    }
+  }
+}
+
+$size: 5px;
+
 .select-item-text {
   display: flex;
   justify-content: center;
 }
-
-$size: 5px;
 
 .item-details {
   position: relative;
@@ -46,28 +56,22 @@ $size: 5px;
   }
 }
 
-@media (max-width: 1200px) {
-  .item-details {
-    .card-body {
-      .item-image {
-        max-width: 50%;
-      }
-    }
-  }
+@media (max-width: 1199px) {
+  @include image-max-width(50%);
 }
 
 @media (max-width: 992px) {
+  @include image-max-width(35%);
   .item-details {
     margin-left: 16px;
-    .card-body {
-      .item-image {
-        max-width: 35%;
-      }
-    }
   }
 }
 
 @media (max-width: 767px) {
+  @include image-max-width(49.2%);
+}
+
+@media (max-width: 576px) {
   .item-details {
     .card-body {
       display: flex;
@@ -84,3 +88,4 @@ $size: 5px;
     }
   }
 }
+
